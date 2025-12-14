@@ -1,19 +1,16 @@
 package org.dailycodework.bankingsystem;
 
-import org.dailycodework.bankingsystem.service.AccountService;
 import org.dailycodework.bankingsystem.service.OperationsConsoleListener;
-import org.dailycodework.bankingsystem.service.UserService;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Configuration;
 
-@SpringBootApplication
+@Configuration
 public class BankingSystemApplication {
-
     public static void main(String[] args) {
-        UserService userService = new UserService();
-        AccountService accountService = new AccountService();
-        OperationsConsoleListener console = new OperationsConsoleListener(userService, accountService);
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(AppConfig.class);
+        // Получаем listener — все зависимости будут внедрены автоматически
+        OperationsConsoleListener console = context.getBean(OperationsConsoleListener.class);
         console.start();
     }
-
 }
